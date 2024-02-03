@@ -1,0 +1,4 @@
+---
+polygons: data/interim/example_annotations/polygons-Kakuma_15.gpkg
+imagery-dir: data/processed/example_tiled_datasets/tile_size_500/images
+output-dir: data/processed/example_chipped_datasets/roof_material_classification

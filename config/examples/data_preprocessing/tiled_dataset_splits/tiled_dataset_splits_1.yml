@@ -1,0 +1,26 @@
+---
+train_tiles:
+  - kakuma_15_tile_1
+  - kakuma_15_tile_2
+  - kakuma_15_tile_10
+  - kakuma_15_tile_11
+  - kakuma_15_tile_12
+  - kakuma_15_tile_13
+  - kakuma_15_tile_16
+  - kakuma_15_tile_17
+  - kakuma_15_tile_19
+  - kakuma_15_tile_20
+  - kakuma_15_tile_21
+  - kakuma_15_tile_24
+  - kakuma_15_tile_25
+  - kakuma_15_tile_26
+  - kakuma_15_tile_27
+  - kakuma_15_tile_29
+  - kakuma_15_tile_33
+val_tiles:
+  - kakuma_15_tile_9
+  - kakuma_15_tile_18
+  - kakuma_15_tile_34
+test_tiles:
+  - kakuma_15_tile_3
+  - kakuma_15_tile_32

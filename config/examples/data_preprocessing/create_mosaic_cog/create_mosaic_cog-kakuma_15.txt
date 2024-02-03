@@ -1,0 +1,2 @@
+buildings_solar_demo/data/raw/imagery/Kakuma_15B_Flight_1-2.tif
+buildings_solar_demo/data/raw/imagery/Kakuma_15A_Flight_1-4.tif

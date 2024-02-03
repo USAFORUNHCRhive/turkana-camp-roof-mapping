@@ -1,0 +1,6 @@
+---
+input-raster: data/interim/example_mosaic_cogs/kakuma_15.tif
+tiles-output: data/processed/example_tiled_datasets/tile_size_500/images
+grid-output: data/interim/example_tiling_grids/tile_size_500
+tile-size: 500
+save-grid-image: reports/figures/example_tiled_datasets/tile_size_500/kakuma_15.png

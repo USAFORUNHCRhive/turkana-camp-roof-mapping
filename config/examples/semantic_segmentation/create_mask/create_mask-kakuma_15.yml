@@ -1,0 +1,6 @@
+---
+image-file: data/interim/example_mosaic_cogs/kakuma_15.tif
+label-file: data/interim/example_annotations/semantic_segmentation_classes-Kakuma_15.gpkg
+label-column: class
+label-order: ["background", "building", "building_boundary", "solar"]
+output-file: data/interim/example_masks/semantic_segmentation/kakuma_15.tif

@@ -1,0 +1,5 @@
+---
+chip-locations-save-path: data/interim/example_chip_locations/semantic_segmentation/chip_locations.gpkg
+input-imagery-dir: data/processed/example_tiled_datasets/tile_size_500/images
+input-mask-dir: data/processed/example_tiled_datasets/tile_size_500/semantic_segmentation/masks
+chip-output-dir: data/processed/example_chipped_datasets/semantic_segmentation

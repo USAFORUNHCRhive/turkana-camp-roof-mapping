@@ -1,0 +1,5 @@
+---
+object-annotations: buildings_solar_demo/data/raw/annotations/version1updated-Kakuma_15.geojson
+background-annotations: buildings_solar_demo/data/raw/annotations/background_region_polygons-epsg32636-Kakuma_15.geojson
+polygon-annotations: data/interim/example_annotations/polygons-Kakuma_15.gpkg
+save-path: data/interim/example_annotations/semantic_segmentation_classes-Kakuma_15.gpkg

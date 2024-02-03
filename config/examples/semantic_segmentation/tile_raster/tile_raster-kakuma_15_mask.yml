@@ -1,0 +1,5 @@
+---
+input-raster: data/interim/example_masks/semantic_segmentation/kakuma_15.tif
+tiles-output: data/processed/example_tiled_datasets/tile_size_500/semantic_segmentation/masks
+grid-init-file: data/interim/example_tiling_grids/tile_size_500/kakuma_15_grid.shp
+save-grid-image: reports/figures/example_tiled_datasets/tile_size_500/kakuma_15_mask.png

@@ -1,0 +1,5 @@
+---
+checkpoint: outputs/semantic_segmentation/example-2024-01-19-01-06-30/checkpoints/epoch=19-step=80.ckpt
+image-dir: data/interim/example_mosaic_cogs
+output-dir: outputs/semantic_segmentation/example-2024-01-19-01-06-30/inference
+device: cuda:0
