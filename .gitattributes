@@ -1,4 +1,4 @@
-demo/data/raw/images/test_Kalobeyei_2B_Flight_03.tif filter=lfs diff=lfs merge=lfs -text
 demo/data/raw/images/trainval_Kalobeyei_2B_Flight_03.tif filter=lfs diff=lfs merge=lfs -text
+demo/data/raw/images/test_Kalobeyei_2B_Flight_03.tif filter=lfs diff=lfs merge=lfs -text
 demo/data/raw/annotations/osm_buildings-toilets-solar_aligned.geojson filter=lfs diff=lfs merge=lfs -text
 demo/data/raw/annotations/background_polygons.geojson filter=lfs diff=lfs merge=lfs -text
