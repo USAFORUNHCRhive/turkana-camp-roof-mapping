@@ -1,5 +1,5 @@
 # Introduction
-**Jump To:** [Setup](#setup) | [Data](#data-acquisition-and-usage) | [Examples](#examples) | [Acknowledgments](#acknowledgments) | [License](#license)
+**Jump To:** [Setup](#setup) | [Data](#data-acquisition-and-usage) | [Examples](#examples) | [Acknowledgments](#acknowledgments) | [License](#license) | [Contributing](#contributing)
 
 Building and solar panel identification in aerial imagery for humanitarian mapping.
 
@@ -78,3 +78,7 @@ This project was made possible through the collaboration of several organization
 # License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+# Contributing
+
+If you're interested in contributing to this project check out the [contributing guide](CONTRIBUTING.md) for more details. We also welcome ideas for other ways to contribute - please reach out to hive@unrefugees.org.
