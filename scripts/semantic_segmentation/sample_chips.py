@@ -4,19 +4,19 @@ from pathlib import Path
 from typing import List
 
 import configargparse
-import pandas as pd
 import geopandas as gpd
+import pandas as pd
 import rasterio
 from tqdm import tqdm
 
 from src.geo_utils import (
     concat_geo_files,
     exclude_points_within_buffer,
+    filter_points_to_raster,
     get_chip_bbox_from_point,
     windowed_raster_read,
 )
-from src.utils import next_path, is_missing_data
-from src.geo_utils import filter_points_to_raster
+from src.utils import is_missing_data, next_path
 
 
 def _filter_dataframe(df, conditions):
@@ -231,7 +231,7 @@ def _find_raster_file_for_bbox(bbox, raster_files):
 # CHIP_SIZE = 256
 
 
-def main(args):
+def sample_chips(args):
     # Get only the filenames that are common to both the imagery and mask directories
     mask_files_set = set(
         f.stem for f in Path(args.input_mask_dir).rglob("*.tif")
@@ -271,7 +271,8 @@ def main(args):
     )
     if len(bldg_chips) > len(solar_chips):
         bldg_chips = bldg_chips.sample(
-            len(solar_chips)
+            len(solar_chips),
+            random_state=args.seed,
         )  # sample same number of chips as solar
     # - background
     background_chips = _get_valid_chip_extents(
@@ -279,9 +280,10 @@ def main(args):
     )
     if len(background_chips) > len(solar_chips):
         background_chips = background_chips.sample(
-            len(solar_chips)
+            len(solar_chips),
+            random_state=args.seed,
         )  # sample same number of chips as solar
-    print(len(background_chips))
+    
     candidate_chips = pd.concat(
         [solar_chips, bldg_chips, background_chips], ignore_index=True
     )
@@ -433,4 +435,4 @@ if __name__ == "__main__":
     args.chip_locations_save_path = (
         Path(args.root_dir) / args.chip_locations_save_path
     )
-    main(args)
+    sample_chips(args)
