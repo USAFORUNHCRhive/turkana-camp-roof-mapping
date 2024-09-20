@@ -13,7 +13,7 @@ from torchgeo.datasets import stack_samples
 from torchgeo.samplers import GridGeoSampler
 from tqdm import tqdm
 
-from src.datasets import preprocess, SingleRasterDataset
+from src.datasets import SingleRasterDataset, preprocess
 from src.models import CustomLogSemanticSegmentation
 from src.utils import load_model
 
@@ -206,6 +206,12 @@ def get_args():
         help="Path to the directory containing the images to predict.",
     )
     parser.add_argument(
+        "--image-glob-pattern",
+        type=str,
+        default="*.tif",
+        help="Glob pattern to use for finding images in the image directory.",
+    )
+    parser.add_argument(
         "--output-dir",
         type=str,
         required=True,
@@ -242,7 +248,7 @@ if __name__ == "__main__":
     predictor = SemanticSegmentationTiffPredictor(
         args["checkpoint"], device=args["device"]
     )
-    image_paths = list(Path(args["image_dir"]).glob("*.tif"))
+    image_paths = list(Path(args["image_dir"]).glob(args["image_glob_pattern"]))
     for image_path in image_paths:
         output, profile = predictor.run_inference(image_path, verbose=True)
         save_path = (
