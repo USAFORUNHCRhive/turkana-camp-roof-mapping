@@ -1,28 +1,27 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
-from pathlib import Path
-import pickle
 import json
+import pickle
 import time
+from pathlib import Path
 
 import configargparse
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+from lightning.pytorch import Trainer, loggers
+from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
 from torch.utils.data import DataLoader
-from torchvision.transforms import (
-    Compose,
+from torchvision.transforms import (  # GaussianBlur,
     ColorJitter,
-    # GaussianBlur,
+    Compose,
     RandomHorizontalFlip,
     RandomRotation,
 )
 from tqdm import tqdm
-from lightning.pytorch import Trainer, loggers
-from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
 
-from src.datasets import preprocess, ChipDataset
 from src.datamodules import ChipSegmentationDataModule
+from src.datasets import ChipDataset, preprocess
 from src.models import CustomLogSemanticSegmentation
 from src.utils import set_seed, split_chips  # , load_model
 
@@ -104,7 +103,7 @@ def main(args):
 
     # Initialize the data module
     train_chips, val_chips, test_chips = split_chips(
-        args.tile_split_file, args.chip_dir
+        args.tile_split_file, args.chip_dir, strict=args.strict_splits
     )
     datamodule = ChipSegmentationDataModule(
         train_chips,
@@ -156,14 +155,24 @@ def main(args):
         name="csv_logs",
     )
 
+    # Determine the device to use
+    if args.gpu_id == -1 or not torch.cuda.is_available():
+        accelerator = "cpu"
+        devices = 1
+        device = torch.device("cpu")
+    else:
+        accelerator = "gpu"
+        devices = [args.gpu_id]
+        device = torch.device(f"cuda:{args.gpu_id}")
+
     # Create a PyTorch Lightning trainer
     trainer = Trainer(
         callbacks=[checkpoint_callback, early_stopping_callback],
         logger=[tb_logger, csv_logger],
         min_epochs=args.min_epochs,
         max_epochs=args.max_epochs,
-        accelerator="gpu",
-        devices=[args.gpu_id],
+        accelerator=accelerator,
+        devices=devices,
     )
 
     # Train the model and test with the best model
@@ -193,7 +202,7 @@ def main(args):
     # NOTE: When using our custom load_model function with inference=True,
     #       these lines are not needed.
     best_model.freeze()
-    best_model = best_model.eval().to(args.gpu_id)
+    best_model = best_model.eval().to(device)
 
     results = {
         "train_chips": dict(),
@@ -205,7 +214,7 @@ def main(args):
         train_chips, args.mask_dir, transforms=preprocess
     )  # turn off augmentations for train
     train_predictions = model_inference(
-        train_ds, best_model, args.gpu_id, image_key="image"
+        train_ds, best_model, device, image_key="image"
     )
     for chip, prediction in zip(
         datamodule.train_ds.chip_paths, train_predictions
@@ -213,13 +222,13 @@ def main(args):
         results["train_chips"][chip] = prediction
     # val chip inference
     val_predictions = model_inference(
-        datamodule.val_ds, best_model, args.gpu_id, image_key="image"
+        datamodule.val_ds, best_model, device, image_key="image"
     )
     for chip, prediction in zip(datamodule.val_ds.chip_paths, val_predictions):
         results["val_chips"][chip] = prediction
     # test chip inference
     test_predictions = model_inference(
-        datamodule.test_ds, best_model, args.gpu_id, image_key="image"
+        datamodule.test_ds, best_model, device, image_key="image"
     )
     for chip, prediction in zip(
         datamodule.test_ds.chip_paths, test_predictions
@@ -250,6 +259,7 @@ if __name__ == "__main__":
     parser.add_argument("--max-epochs", type=int, default=100)
     parser.add_argument("--learning-rate", type=float, default=0.0005)
     parser.add_argument("--gpu-id", type=int, default=0)
+    parser.add_argument("--strict-splits", action="store_true")
     args = parser.parse_args()
     run_timestamp = "{}".format(time.strftime("%Y-%m-%d-%H-%M-%S"))
     args.run_name = f"{args.exp_version}-{run_timestamp}"
