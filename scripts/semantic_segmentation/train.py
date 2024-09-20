@@ -112,6 +112,7 @@ def main(args):
         args.mask_dir,
         transforms={"train": augmentation_transform, "eval": preprocess},
         batch_size=args.batch_size,
+        num_workers=args.num_workers,
     )
     fig = datamodule.plot_transforms()
     fig.savefig(base_path / "transforms.png")
@@ -214,7 +215,7 @@ def main(args):
         train_chips, args.mask_dir, transforms=preprocess
     )  # turn off augmentations for train
     train_predictions = model_inference(
-        train_ds, best_model, device, image_key="image"
+        train_ds, best_model, device, image_key="image", num_workers=args.num_workers
     )
     for chip, prediction in zip(
         datamodule.train_ds.chip_paths, train_predictions
@@ -222,13 +223,13 @@ def main(args):
         results["train_chips"][chip] = prediction
     # val chip inference
     val_predictions = model_inference(
-        datamodule.val_ds, best_model, device, image_key="image"
+        datamodule.val_ds, best_model, device, image_key="image", num_workers=args.num_workers
     )
     for chip, prediction in zip(datamodule.val_ds.chip_paths, val_predictions):
         results["val_chips"][chip] = prediction
     # test chip inference
     test_predictions = model_inference(
-        datamodule.test_ds, best_model, device, image_key="image"
+        datamodule.test_ds, best_model, device, image_key="image", num_workers=args.num_workers
     )
     for chip, prediction in zip(
         datamodule.test_ds.chip_paths, test_predictions
@@ -255,6 +256,7 @@ if __name__ == "__main__":
     parser.add_argument("--tile-split-file", type=str, required=True)
     parser.add_argument("--class-weights", nargs="*", type=float, default=None)
     parser.add_argument("--batch-size", type=int, default=32)
+    parser.add_argument("--num-workers", type=int, default=6)
     parser.add_argument("--min-epochs", type=int, default=1)
     parser.add_argument("--max-epochs", type=int, default=100)
     parser.add_argument("--learning-rate", type=float, default=0.0005)
