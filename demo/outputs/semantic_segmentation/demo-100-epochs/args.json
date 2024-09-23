@@ -1,0 +1,17 @@
+{
+    "config": null,
+    "seed": 42,
+    "exp_version": "demo",
+    "output_dir": "./outputs",
+    "chip_dir": "./data/processed/chipped_datasets/semantic_segmentation/images",
+    "mask_dir": "./data/processed/chipped_datasets/semantic_segmentation/masks",
+    "tile_split_file": "./config/dataset_splits.yml",
+    "class_weights": null,
+    "batch_size": 32,
+    "min_epochs": 1,
+    "max_epochs": 100,
+    "learning_rate": 0.0005,
+    "gpu_id": 0,
+    "strict_splits": false,
+    "run_name": "demo-2024-09-19-23-47-33"
+}

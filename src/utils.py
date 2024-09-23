@@ -100,7 +100,7 @@ def is_missing_data(
 
 
 def split_chips(
-    tile_split_file: str, chip_dir: str, chip_suffix: str = ".tif"
+    tile_split_file: str, chip_dir: str, chip_suffix: str = ".tif", strict: bool = True
 ) -> Tuple[List[Path], List[Path], List[Path]]:
     """
     Splits the chips into train, validation, and test sets based on the tile split file.
@@ -109,6 +109,8 @@ def split_chips(
         tile_split_file (str): Path to the YAML file containing the tile split.
         chip_dir (str): Directory containing the chip files.
         chip_suffix (str, optional): Suffix of the chip files. Defaults to ".tif".
+        strict (bool, optional): If True, raises an error if a chip belongs to more
+                                    than one set. Defaults to True.
 
     Raises:
         ValueError: If a chip belongs to more than one set.
@@ -137,17 +139,19 @@ def split_chips(
         ]
 
         # If the chip belongs to more than one set, raise an error
-        if len(chip_sets_keys) > 1:
+        if len(chip_sets_keys) > 1 and strict:
             raise ValueError("Chip is in more than one set!")
-        # If the chip belongs to one set, add it to that set
+        # If the chip belongs to a set, add it to that set
         elif chip_sets_keys:
-            chip_sets[chip_sets_keys[0]].append(chip)
+            for key in chip_sets_keys:
+                chip_sets[key].append(chip)
 
     # Check that the sets are disjoint (i.e., they don't share any chips)
-    for key1, key2 in combinations(chip_sets.keys(), 2):
-        assert set(chip_sets[key1]).isdisjoint(
-            chip_sets[key2]
-        ), f"Sets {key1} and {key2} are not disjoint!"
+    if strict:
+        for key1, key2 in combinations(chip_sets.keys(), 2):
+            assert set(chip_sets[key1]).isdisjoint(
+                chip_sets[key2]
+            ), f"Sets {key1} and {key2} are not disjoint!"
 
     # Return the chips for the train, val, and test sets
     return (

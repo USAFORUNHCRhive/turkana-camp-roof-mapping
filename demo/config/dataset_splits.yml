@@ -1,0 +1,8 @@
+---
+train_tiles:
+  - trainval_Kalobeyei_2B_Flight_03
+val_tiles:
+  - trainval_Kalobeyei_2B_Flight_03
+test_tiles:
+  - test_Kalobeyei_2B_Flight_03
+  

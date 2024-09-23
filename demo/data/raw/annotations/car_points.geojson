@@ -1,0 +1,9 @@
+{
+"type": "FeatureCollection",
+"name": "car_points",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::32636" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 0 }, "geometry": { "type": "Point", "coordinates": [ 693583.65339941973798, 416738.412592827749904 ] } },
+{ "type": "Feature", "properties": { "id": 1 }, "geometry": { "type": "Point", "coordinates": [ 693628.327443958260119, 416703.248412714863662 ] } }
+]
+}

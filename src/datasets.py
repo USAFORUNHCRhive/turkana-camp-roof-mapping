@@ -60,6 +60,8 @@ def preprocess(
             sample["image"] = (
                 sample["image"] / 255.0
             ).float()  # inputs are normalized to [0, 1]
+        else:
+            sample["image"] = sample["image"].float()
     if "mask" in sample:
         sample["mask"] = sample["mask"].squeeze().long()
 
