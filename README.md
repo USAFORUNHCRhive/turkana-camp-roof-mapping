@@ -37,6 +37,10 @@ To setup the project, follow these steps:
     set +a
     ```
 
+Requirements:
+- Linux recommended (environment includes Linux-specific packages).
+- NVIDIA GPU with CUDA 11.7 (8GB+ VRAM recommended).
+
 # Data Acquisition and Usage
 
 This project uses TIFF files of aerial imagery scenes and GeoJSON or GeoPackage files with vector geometries of buildings, solar panels, and other objects of interest. You can use your own data or request a small sample of a dataset collected by USA for UNHCR and the Humanitarian OpenStreetMap Team that is hosted on Azure blob storage:
@@ -80,5 +84,6 @@ This project was made possible through the collaboration of several organization
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 # Contributing
+
 
 If you're interested in contributing to this project check out the [contributing guide](CONTRIBUTING.md) for more details. We also welcome ideas for other ways to contribute - please reach out to hive@unrefugees.org.
